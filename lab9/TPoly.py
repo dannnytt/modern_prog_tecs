@@ -10,13 +10,13 @@ class TPoly:
         else:
             self.polynom = {degree: TMember(coeff, degree)}
 
-    def maxDegree(self) -> int:
+    def max_degree(self) -> int:
         if not self.polynom:
             return 0
         return max(self.polynom.keys())
 
     def coeff(self, degree: int) -> int:
-        return self.polynom.get(degree, TMember()).readCoeff()
+        return self.polynom.get(degree, TMember()).read_coeff()
 
     def clear(self):
         self.polynom.clear()
@@ -26,7 +26,7 @@ class TPoly:
         result.polynom = self.polynom.copy()
         for deg, mon in other.polynom.items():
             if deg in result.polynom:
-                new_coeff = result.polynom[deg].readCoeff() + mon.readCoeff()
+                new_coeff = result.polynom[deg].read_coeff() + mon.read_coeff()
                 if new_coeff != 0:
                     result.polynom[deg] = TMember(new_coeff, deg)
                 else:
@@ -40,19 +40,19 @@ class TPoly:
         result.polynom = self.polynom.copy()
         for deg, mon in other.polynom.items():
             if deg in result.polynom:
-                new_coeff = result.polynom[deg].readCoeff() - mon.readCoeff()
+                new_coeff = result.polynom[deg].read_coeff() - mon.read_coeff()
                 if new_coeff != 0:
                     result.polynom[deg] = TMember(new_coeff, deg)
                 else:
                     del result.polynom[deg]
             else:
-                result.polynom[deg] = TMember(-mon.readCoeff(), deg)
+                result.polynom[deg] = TMember(-mon.read_coeff(), deg)
         return result
 
     def minus(self) -> TPoly:
         result = TPoly()
         for deg, mon in self.polynom.items():
-            result.polynom[deg] = TMember(-mon.readCoeff(), deg)
+            result.polynom[deg] = TMember(-mon.read_coeff(), deg)
         return result
 
     def __mul__(self, other: TPoly) -> TPoly:
@@ -60,9 +60,9 @@ class TPoly:
         for deg1, mon1 in self.polynom.items():
             for deg2, mon2 in other.polynom.items():
                 new_deg = deg1 + deg2
-                new_coeff = mon1.readCoeff() * mon2.readCoeff()
+                new_coeff = mon1.read_coeff() * mon2.read_coeff()
                 if new_deg in result.polynom:
-                    old_coeff = result.polynom[new_deg].readCoeff()
+                    old_coeff = result.polynom[new_deg].read_coeff()
                     total_coeff = old_coeff + new_coeff
                     if total_coeff != 0:
                         result.polynom[new_deg] = TMember(total_coeff, new_deg)
@@ -77,8 +77,8 @@ class TPoly:
         result = TPoly()
         for deg, mon in self.polynom.items():
             diff_mon = mon.differentiate()
-            if diff_mon.readCoeff() != 0:
-                result.polynom[diff_mon.readPower()] = diff_mon
+            if diff_mon.read_coeff() != 0:
+                result.polynom[diff_mon.read_degree()] = diff_mon
         return result
 
     def compute(self, x: float) -> float:
