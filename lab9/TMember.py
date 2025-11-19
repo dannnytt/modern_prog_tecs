@@ -2,12 +2,11 @@ from __future__ import annotations
 
 class TMember:
     
-    def __init__(self, coeff: int, degree: int) -> None:
-        self.__coeff = coeff
+    def __init__(self, coeff: int = 0, degree: int = 0):
+        if degree < 0: raise ValueError("degree must be non-negative")
         
-        if (degree < 0): raise ValueError("degree must be positive")
-        if (coeff == 0): self.__degree = 0
-        else: self.__degree = degree
+        self.__coeff = coeff
+        self.__degree = 0 if coeff == 0 else degree
 
 
     def read_degree(self) -> int:
