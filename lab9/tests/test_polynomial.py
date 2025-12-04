@@ -47,7 +47,6 @@ def test_member_compute_and_str():
     a = TMember(2, 3)
     assert pytest.approx(a.compute(2.0)) == 16.0
 
-    # string representations
     cases = [
         (TMember(3, 0), "3"),
         (TMember(1, 1), "x"),
@@ -58,11 +57,6 @@ def test_member_compute_and_str():
     ]
     for member, expected in cases:
         assert str(member) == expected
-
-
-# -----------------
-# TPoly tests
-# -----------------
 
 def test_poly_constructor_zero():
     p = TPoly()
@@ -85,13 +79,12 @@ def test_poly_clear():
 
 
 def test_poly_elem_and_getitem():
-    # build polynomial 3x^3 + 2x + 1 using public constructor and addition
+    # polynomial 3x^3 + 2x + 1
     p = TPoly(3, 3) + TPoly(2, 1) + TPoly(1, 0)
     top = p.elem(0)
     assert isinstance(top, TMember)
     assert top.read_coeff() == 3
     assert top.read_degree() == 3
-    # __getitem__ delegates to elem
     assert p[1].read_degree() == 1
 
 

@@ -4,19 +4,20 @@ from typing import Dict
 from TMember import TMember
 
 class TPoly:
+    # создание полинома
     def __init__(self, coeff: int = 0, degree: int = 0) -> None:
         if coeff == 0:
-            self.polynom: Dict[int, TMember] = {}
+            self.polynom: Dict[int, TMember] = {}       # ключ - степень; значение - TMember
         else:
             self.polynom = {degree: TMember(coeff, degree)}
 
     def max_degree(self) -> int:
         if not self.polynom:
-            return 0
+            return 0    # cтепень нулевого полинома
         return max(self.polynom.keys())
 
     def coeff(self, degree: int) -> int:
-        return self.polynom.get(degree, TMember()).read_coeff()
+        return self.polynom.get(degree, TMember()).read_coeff() # коэффициент при заданной степени
 
     def clear(self):
         self.polynom.clear()
@@ -109,3 +110,17 @@ class TPoly:
             term = self.polynom[deg]
             terms.append(str(term))
         return " + ".join(terms).replace("+ -", "- ")
+    
+    def normalize(self) -> None:
+        zeros = [deg for deg, m in list(self.polynom.items()) if m.read_coeff() == 0]
+        for deg in zeros:
+            del self.polynom[deg]   # удалены все степени, у которых коэффициент равен нулю
+
+        combined = {}
+        for deg, m in self.polynom.items(): # собирает все одночлены одинаковой степени в новый словарь
+            if deg in combined:
+                combined[deg] = TMember(combined[deg].read_coeff() + m.read_coeff(), deg)
+            else:
+                combined[deg] = TMember(m.read_coeff(), deg)
+        self.polynom = {deg: m for deg, m in combined.items() if m.read_coeff() != 0}
+
